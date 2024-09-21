@@ -1,0 +1,42 @@
+id: run_ml_pipeline
+namespace: dev
+tasks:
+  - id: run_python_commands 
+    type: io.kestra.plugin.scripts.python.Commands
+    namespaceFiles:
+      enabled: true
+    env:
+      AWS_ACCESS_KEY_ID: "{{secret('AWS_ACCESS_KEY_ID')}}"
+      AWS_SECRET_ACCESS_KEY: "{{secret('AWS_SECRET_ACCESS_KEY')}}"
+    docker:
+      image: ghcr.io/kestra-io/pydata:latest
+    beforeCommands:
+      - pip install -r requirements.txt
+    commands:
+      - python src/download_files_from_s3.py
+      - python src/merge_data.py
+      - python src/process.py
+      - python src/train.py model_path=model/model.pkl
+    outputFiles:
+      - "*.pkl"
+  - id: upload
+    type: io.kestra.plugin.aws.s3.Upload
+    accessKeyId: "{{secret('AWS_ACCESS_KEY_ID')}}"
+    secretKeyId: "{{secret('AWS_SECRET_ACCESS_KEY')}}"
+    region: us-east-2
+    from: '{{outputs.run_python_commands.outputFiles["model/model.pkl"]}}'
+    bucket: winequality-red
+    key: model.pkl
+triggers:
+  - id: watch
+    type: io.kestra.plugin.aws.s3.Trigger
+    interval: PT1S
+    accessKeyId: "{{secret('AWS_ACCESS_KEY_ID')}}"
+    secretKeyId: "{{secret('AWS_SECRET_ACCESS_KEY')}}"
+    region: us-east-2
+    bucket: winequality-red
+    prefix: new
+    action: MOVE
+    moveTo:
+      bucket: winequality-red
+      key: old

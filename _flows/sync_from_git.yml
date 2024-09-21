@@ -1,0 +1,17 @@
+id: sync_from_git
+namespace: dev
+
+tasks:
+  - id: git
+    type: io.kestra.plugin.git.Sync
+    url: https://github.com/khuyentran1401/mlops-kestra-workflow
+    branch: main
+    username: "{{secret('GITHUB_USERNAME')}}"
+    password: "{{secret('GITHUB_PASSWORD')}}"
+    dryRun: false  # if true, you'll see what files will be added, modified
+    # or deleted based on the Git version without overwriting the files yet
+
+triggers:
+  - id: schedule
+    type: io.kestra.core.models.triggers.types.Schedule
+    cron: "*/1 * * * *" # every minute

@@ -1,0 +1,45 @@
+data:
+  raw:
+    dir: data/raw
+    name: data2
+    path: ${data.raw.dir}/${data.raw.name}.csv
+  merged:
+    dir: data/merged
+    name: merged.pkl
+    path: ${data.merged.dir}/${data.merged.name}
+  processed:
+    dir: data/processed
+model_path: model/model.pkl
+process:
+  feature: quality
+  test_size: 0.2
+train:
+  hyperparameters:
+    svm__kernel:
+      - linear
+    svm__C:
+      - 0.1
+      - 1
+      - 10
+    svm__gamma:
+      - 0.1
+      - 1
+      - 10
+  grid_search:
+    cv: 2
+    scoring: accuracy
+    verbose: 3
+s3:
+  raw:
+    new:
+      bucket: winequality-red
+      file_name: data2.csv
+      object_key: new/${s3.raw.new.file_name}
+      local_path: data/raw/${s3.raw.new.file_name}
+    old:
+      bucket: winequality-red
+      prefix: old 
+      local_path: data/raw
+  processed:
+    bucket: winequality-red
+    object_key: processed.pkl
