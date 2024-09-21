@@ -1,4 +1,4 @@
-# Setting Up Automated Model Training Workflows with AWS S3
+# Automated Model Training Workflows with AWS S3
 ## Motivation
 Consider you’re an e-commerce platform aiming to enhance recommendation personalization. Your data resides in S3.
 
