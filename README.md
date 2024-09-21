@@ -9,11 +9,11 @@ This repo shows how you can set up an automated model training workflows trigger
 ## Set up
 1. Clone this repo:
 ```bash
-git clone https://github.com/khuyentran1401/mlops-kestra-workflow.git
+git clone https://github.com/kaushikrohit004/MLOps-Workflow.git
 ```
 2. Go to the folder:
 ```bash
-cd mlops-kestra-workflow
+cd MLOps-Workflow
 ```
 3. Create the ".env" file and pass your GitHub and AWS credentials:
 ```bash
@@ -43,6 +43,3 @@ Access the UI by opening the URL http://localhost:8080 in your browser.
 
 ![](images/kestra.png)
 
-
-## Run the flow
-View [this article](https://medium.com/towards-data-science/setting-up-automated-model-training-workflows-with-aws-s3-cd0587b42f34) on how to execute the flow.
