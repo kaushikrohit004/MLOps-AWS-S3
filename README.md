@@ -39,7 +39,5 @@ SECRET_AWS_SECRET_ACCESS_KEY=bXlhd3NzZWNyZXRhY2Nlc3NrZXk=
 ```bash
 docker-compose up -d
 ```
-Access the UI by opening the URL http://localhost:8080 in your browser.
-
 ![](images/kestra.png)
 
